@@ -1,6 +1,7 @@
 import os
 import re
 import sqlite3
+import sys
 import zipfile
 import zstandard as zstd
 import argparse
@@ -132,6 +133,12 @@ if __name__ == "__main__":
                         help="Scan all tables in the database (default: only scan limited tables)")
 
     args = parser.parse_args()
+    
+    # Check for invalid arguments that would cause confusion
+    if 'help' in sys.argv or '-h' in sys.argv:
+        print("[!] Error: Invalid argument. Please check your input.")
+        parser.print_help()
+        sys.exit(1)
 
     # Run the main function with the parsed arguments
     main(args.apkg_file, args.preview_length, args.all_tables)
